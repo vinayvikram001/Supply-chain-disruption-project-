@@ -199,3 +199,202 @@ def suggest_alternatives(affected_suppliers):
         print("No action required.")
 
     print("\n=======================================\n")
+    # report_engine.py
+
+import json
+from datetime import datetime
+
+
+class DisruptionReport:
+
+    def __init__(
+        self,
+        event,
+        risk_type,
+        severity,
+        location,
+        affected_suppliers,
+        alternatives
+    ):
+
+        self.event = event
+        self.risk_type = risk_type
+        self.severity = severity
+        self.location = location
+        self.affected_suppliers = affected_suppliers
+        self.alternatives = alternatives
+        self.timestamp = datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+    def generate_json(self):
+
+        report = {
+            "timestamp": self.timestamp,
+            "event": self.event,
+            "risk_type": self.risk_type,
+            "severity": self.severity,
+            "location": self.location,
+            "affected_suppliers": self.affected_suppliers,
+            "alternative_suppliers": self.alternatives
+        }
+
+        return report
+
+    def save_report(self, filename):
+
+        report = self.generate_json()
+
+        with open(filename, "w") as file:
+            json.dump(
+                report,
+                file,
+                indent=4
+            )
+
+        print(f"\nReport saved: {filename}")
+
+
+class RiskScorer:
+
+    def calculate_score(self, severity):
+
+        scores = {
+            "Low": 25,
+            "Medium": 50,
+            "High": 75,
+            "Critical": 100
+        }
+
+        return scores.get(severity, 0)
+
+
+class AlertManager:
+
+    def create_alert(self, severity):
+
+        if severity == "Critical":
+            return (
+                "URGENT: Immediate action required."
+            )
+
+        elif severity == "High":
+            return (
+                "WARNING: Monitor situation closely."
+            )
+
+        elif severity == "Medium":
+            return (
+                "NOTICE: Potential disruption detected."
+            )
+
+        return (
+            "SAFE: No significant disruption."
+        )
+
+
+class ReportHistory:
+
+    def __init__(self):
+        self.history = []
+
+    def add_report(self, report):
+
+        self.history.append(report)
+
+    def show_reports(self):
+
+        print("\n===== REPORT HISTORY =====")
+
+        for report in self.history:
+
+            print(
+                f"{report['event']} | "
+                f"{report['severity']} | "
+                f"{report['timestamp']}"
+            )
+
+
+event = (
+    "Taiwan earthquake disrupts "
+    "semiconductor production"
+)
+
+affected_suppliers = [
+    "Taiwan Chip Corp",
+    "Taipei Electronics"
+]
+
+alternative_suppliers = [
+    "Japan Chip Ltd",
+    "Korea Semiconductor"
+]
+
+report = DisruptionReport(
+    event=event,
+    risk_type="Natural Disaster",
+    severity="Critical",
+    location="Taiwan",
+    affected_suppliers=affected_suppliers,
+    alternatives=alternative_suppliers
+)
+
+report_json = report.generate_json()
+
+scorer = RiskScorer()
+
+risk_score = scorer.calculate_score(
+    report_json["severity"]
+)
+
+alert_manager = AlertManager()
+
+alert_message = alert_manager.create_alert(
+    report_json["severity"]
+)
+
+print("\n========== DISRUPTION REPORT ==========\n")
+
+print("Event:")
+print(report_json["event"])
+
+print("\nLocation:")
+print(report_json["location"])
+
+print("\nRisk Type:")
+print(report_json["risk_type"])
+
+print("\nSeverity:")
+print(report_json["severity"])
+
+print("\nRisk Score:")
+print(risk_score)
+
+print("\nAlert:")
+print(alert_message)
+
+print("\nAffected Suppliers:")
+
+for supplier in report_json[
+    "affected_suppliers"
+]:
+    print(f"- {supplier}")
+
+print("\nAlternative Suppliers:")
+
+for supplier in report_json[
+    "alternative_suppliers"
+]:
+    print(f"- {supplier}")
+
+report.save_report(
+    "disruption_report.json"
+)
+
+history = ReportHistory()
+
+history.add_report(
+    report_json
+)
+
+history.show_reports()
