@@ -398,3 +398,440 @@ history.add_report(
 )
 
 history.show_reports()
+# news_ingestion_engine.py
+
+from datetime import datetime
+
+
+class NewsArticle:
+
+    def __init__(self, title, source, location):
+
+        self.title = title
+        self.source = source
+        self.location = location
+        self.timestamp = datetime.now()
+
+    def display(self):
+
+        print("\n-----------------------------")
+        print("Title     :", self.title)
+        print("Source    :", self.source)
+        print("Location  :", self.location)
+        print("Timestamp :", self.timestamp)
+        print("-----------------------------")
+
+
+class NewsCollector:
+
+    def __init__(self):
+
+        self.articles = []
+
+    def add_article(
+        self,
+        title,
+        source,
+        location
+    ):
+
+        article = NewsArticle(
+            title,
+            source,
+            location
+        )
+
+        self.articles.append(article)
+
+    def show_all_articles(self):
+
+        print("\n===== NEWS FEED =====")
+
+        for article in self.articles:
+            article.display()
+
+    def total_articles(self):
+
+        return len(self.articles)
+
+
+class SupplyChainFilter:
+
+    SUPPLY_CHAIN_KEYWORDS = [
+        "earthquake",
+        "strike",
+        "port",
+        "shipping",
+        "factory",
+        "microchip",
+        "supplier",
+        "transport",
+        "logistics",
+        "war"
+    ]
+
+    def filter_articles(
+        self,
+        articles
+    ):
+
+        relevant_articles = []
+
+        for article in articles:
+
+            title = article.title.lower()
+
+            for keyword in self.SUPPLY_CHAIN_KEYWORDS:
+
+                if keyword in title:
+
+                    relevant_articles.append(
+                        article
+                    )
+
+                    break
+
+        return relevant_articles
+
+
+class RiskDetector:
+
+    def detect_risk(self, title):
+
+        title = title.lower()
+
+        if "earthquake" in title:
+
+            return {
+                "risk_type": "Natural Disaster",
+                "severity": "Critical"
+            }
+
+        elif "strike" in title:
+
+            return {
+                "risk_type": "Labor Strike",
+                "severity": "High"
+            }
+
+        elif "war" in title:
+
+            return {
+                "risk_type": "Geopolitical Conflict",
+                "severity": "Critical"
+            }
+
+        elif "shipping" in title:
+
+            return {
+                "risk_type": "Logistics Delay",
+                "severity": "Medium"
+            }
+
+        return {
+            "risk_type": "Safe",
+            "severity": "Low"
+        }
+
+
+class NewsAnalysisEngine:
+
+    def __init__(self):
+
+        self.detector = RiskDetector()
+
+    def analyze(
+        self,
+        articles
+    ):
+
+        print("\n===== ANALYSIS RESULTS =====")
+
+        for article in articles:
+
+            result = self.detector.detect_risk(
+                article.title
+            )
+
+            print("\nTitle:")
+            print(article.title)
+
+            print("Location:")
+            print(article.location)
+
+            print("Risk Type:")
+            print(result["risk_type"])
+
+            print("Severity:")
+            print(result["severity"])
+
+
+collector = NewsCollector()
+
+collector.add_article(
+    "Taiwan earthquake disrupts microchip factories",
+    "Reuters",
+    "Taiwan"
+)
+
+collector.add_article(
+    "Port workers begin strike in Shanghai",
+    "BBC",
+    "China"
+)
+
+collector.add_article(
+    "Sports tournament announced in Tokyo",
+    "ESPN",
+    "Japan"
+)
+
+collector.add_article(
+    "Shipping delays affect European logistics",
+    "CNBC",
+    "Germany"
+)
+
+collector.show_all_articles()
+
+print(
+    "\nTotal Articles:",
+    collector.total_articles()
+)
+
+filter_engine = SupplyChainFilter()
+
+relevant_articles = (
+    filter_engine.filter_articles(
+        collector.articles
+    )
+)
+
+print(
+    "\nRelevant Supply Chain Articles:",
+    len(relevant_articles)
+)
+
+analysis_engine = NewsAnalysisEngine()
+
+analysis_engine.analyze(
+    relevant_articles
+)# news_ingestion_engine.py
+
+from datetime import datetime
+
+
+class NewsArticle:
+
+    def __init__(self, title, source, location):
+
+        self.title = title
+        self.source = source
+        self.location = location
+        self.timestamp = datetime.now()
+
+    def display(self):
+
+        print("\n-----------------------------")
+        print("Title     :", self.title)
+        print("Source    :", self.source)
+        print("Location  :", self.location)
+        print("Timestamp :", self.timestamp)
+        print("-----------------------------")
+
+
+class NewsCollector:
+
+    def __init__(self):
+
+        self.articles = []
+
+    def add_article(
+        self,
+        title,
+        source,
+        location
+    ):
+
+        article = NewsArticle(
+            title,
+            source,
+            location
+        )
+
+        self.articles.append(article)
+
+    def show_all_articles(self):
+
+        print("\n===== NEWS FEED =====")
+
+        for article in self.articles:
+            article.display()
+
+    def total_articles(self):
+
+        return len(self.articles)
+
+
+class SupplyChainFilter:
+
+    SUPPLY_CHAIN_KEYWORDS = [
+        "earthquake",
+        "strike",
+        "port",
+        "shipping",
+        "factory",
+        "microchip",
+        "supplier",
+        "transport",
+        "logistics",
+        "war"
+    ]
+
+    def filter_articles(
+        self,
+        articles
+    ):
+
+        relevant_articles = []
+
+        for article in articles:
+
+            title = article.title.lower()
+
+            for keyword in self.SUPPLY_CHAIN_KEYWORDS:
+
+                if keyword in title:
+
+                    relevant_articles.append(
+                        article
+                    )
+
+                    break
+
+        return relevant_articles
+
+
+class RiskDetector:
+
+    def detect_risk(self, title):
+
+        title = title.lower()
+
+        if "earthquake" in title:
+
+            return {
+                "risk_type": "Natural Disaster",
+                "severity": "Critical"
+            }
+
+        elif "strike" in title:
+
+            return {
+                "risk_type": "Labor Strike",
+                "severity": "High"
+            }
+
+        elif "war" in title:
+
+            return {
+                "risk_type": "Geopolitical Conflict",
+                "severity": "Critical"
+            }
+
+        elif "shipping" in title:
+
+            return {
+                "risk_type": "Logistics Delay",
+                "severity": "Medium"
+            }
+
+        return {
+            "risk_type": "Safe",
+            "severity": "Low"
+        }
+
+
+class NewsAnalysisEngine:
+
+    def __init__(self):
+
+        self.detector = RiskDetector()
+
+    def analyze(
+        self,
+        articles
+    ):
+
+        print("\n===== ANALYSIS RESULTS =====")
+
+        for article in articles:
+
+            result = self.detector.detect_risk(
+                article.title
+            )
+
+            print("\nTitle:")
+            print(article.title)
+
+            print("Location:")
+            print(article.location)
+
+            print("Risk Type:")
+            print(result["risk_type"])
+
+            print("Severity:")
+            print(result["severity"])
+
+
+collector = NewsCollector()
+
+collector.add_article(
+    "Taiwan earthquake disrupts microchip factories",
+    "Reuters",
+    "Taiwan"
+)
+
+collector.add_article(
+    "Port workers begin strike in Shanghai",
+    "BBC",
+    "China"
+)
+
+collector.add_article(
+    "Sports tournament announced in Tokyo",
+    "ESPN",
+    "Japan"
+)
+
+collector.add_article(
+    "Shipping delays affect European logistics",
+    "CNBC",
+    "Germany"
+)
+
+collector.show_all_articles()
+
+print(
+    "\nTotal Articles:",
+    collector.total_articles()
+)
+
+filter_engine = SupplyChainFilter()
+
+relevant_articles = (
+    filter_engine.filter_articles(
+        collector.articles
+    )
+)
+
+print(
+    "\nRelevant Supply Chain Articles:",
+    len(relevant_articles)
+)
+
+analysis_engine = NewsAnalysisEngine()
+
+analysis_engine.analyze(
+    relevant_articles
+)news_ingestion_engine.py
