@@ -1,0 +1,13 @@
+{
+  "suppliers": [
+    {
+      "id": "S001",
+      "name": "TaiwanChip Co.",
+      "tier": 2,
+      "location": "Taiwan",
+      "parts_supplied": ["microchips", "processors"],
+      "supplies_to": ["A001"],
+      "risk_level": "medium"
+    }
+  ]
+}
