@@ -1,0 +1,21 @@
+supplier_id,supplier_name,tier,region,industry,depends_on,backup_supplier
+SUP001,Taiwan Chips Ltd,Tier 1,Asia,Electronics,SUP006,SUP016
+SUP002,Neo Plastics,Tier 1,Europe,Automotive,SUP007,SUP017
+SUP003,Global Metals,Tier 1,North America,Manufacturing,SUP008,SUP018
+SUP004,Pacific Textiles,Tier 1,Asia,Consumer Goods,SUP009,SUP019
+SUP005,MediCore Pharma,Tier 1,Europe,Healthcare,SUP010,SUP020
+SUP006,Silicon Wafer Co,Tier 2,Asia,Electronics,SUP011,SUP012
+SUP007,Polymer Solutions,Tier 2,Europe,Automotive,SUP013,SUP014
+SUP008,Ore Processing Inc,Tier 2,South America,Manufacturing,SUP015,SUP011
+SUP009,Cotton Mills Ltd,Tier 2,Africa,Consumer Goods,SUP012,SUP013
+SUP010,Chem Labs Global,Tier 2,North America,Healthcare,SUP014,SUP015
+SUP011,Raw Silicon Mines,Tier 3,Asia,Mining,,SUP015
+SUP012,Industrial Fibers Corp,Tier 3,Europe,Materials,,SUP013
+SUP013,PetroChem Industries,Tier 3,Middle East,Chemicals,,SUP014
+SUP014,Advanced Minerals Ltd,Tier 3,Africa,Mining,,SUP011
+SUP015,Rare Earth Resources,Tier 3,South America,Mining,,SUP012
+SUP016,East Asia Semiconductors,Tier 1,Asia,Electronics,SUP012,SUP001
+SUP017,Euro Auto Components,Tier 1,Europe,Automotive,SUP013,SUP002
+SUP018,SteelWorks International,Tier 1,North America,Manufacturing,SUP015,SUP003
+SUP019,Fabric Innovations,Tier 1,Asia,Consumer Goods,SUP012,SUP004
+SUP020,HealthSource Chemicals,Tier 1,Europe,Healthcare,SUP014,SUP005
