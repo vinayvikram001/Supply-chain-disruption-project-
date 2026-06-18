@@ -1,59 +1,50 @@
 import pandas as pd
 import networkx as nx
 
-df = pd.read_csv("data/supplier_network.csv")
+def build_graph():
 
-G = nx.DiGraph()
+    df = pd.read_csv("data/supplier_network.csv")
 
-for _, row in df.iterrows():
+    G = nx.DiGraph()
 
-    supplier = row['supplier_id']
+    for _, row in df.iterrows():
 
-    G.add_node(
-        supplier,
-        name=row['supplier_name'],
-        tier=row['tier'],
-        region=row['region'],
-        industry=row['industry']
-    )
+        supplier = row['supplier_id']
 
-    dependency = row['depends_on']
+        G.add_node(
+            supplier,
+            name=row['supplier_name'],
+            tier=row['tier'],
+            region=row['region'],
+            industry=row['industry']
+        )
 
-    if pd.notna(dependency):
-        G.add_edge(dependency, supplier)
+        dependency = row['depends_on']
 
-print("Nodes:", G.number_of_nodes())
-print("Edges:", G.number_of_edges())
+        if pd.notna(dependency):
+            G.add_edge(dependency, supplier)
+
+    return G, df
+
+
 def blast_radius(graph, supplier):
 
-    affected = list(
+    return list(
         nx.descendants(graph, supplier)
     )
 
-    return affected
-supplier = "SUP011"
 
-affected = blast_radius(G, supplier)
+def get_backup_suppliers(df, affected):
 
-print("\nDisruption Source:", supplier)
+    backups = {}
 
-print("Affected Suppliers:")
+    for node in affected:
 
-for node in affected:
+        backup = df[
+            df['supplier_id'] == node
+        ]['backup_supplier'].values
 
-    print(node)
-print("\nBackup Suppliers:")
+        if len(backup) > 0:
+            backups[node] = backup[0]
 
-for node in affected:
-
-    backup = df[
-        df['supplier_id'] == node
-    ]['backup_supplier'].values
-
-    if len(backup) > 0:
-
-        print(
-            node,
-            "→",
-            backup[0]
-        )
+    return backups

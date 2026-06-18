@@ -1,4 +1,8 @@
-from crewai import Agent
+from crewai import Agent, LLM
+
+llm = LLM(
+    model="groq/llama-3.3-70b-versatile"
+)
 
 risk_manager = Agent(
     role="Supply Chain Risk Manager",
@@ -14,6 +18,8 @@ risk_manager = Agent(
     such as natural disasters, strikes, geopolitical
     conflicts, and supplier failures.
     """,
+
+    llm=llm,
 
     verbose=True
 )
