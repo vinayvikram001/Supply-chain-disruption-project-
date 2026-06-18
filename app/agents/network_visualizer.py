@@ -1,18 +1,25 @@
-from crewai import Agent
+from crewai import Agent, LLM
+
+llm = LLM(
+    model="groq/llama-3.3-70b-versatile"
+)
 
 network_visualizer = Agent(
-    role="Supply Chain Network Analyst",
+    role="Supply Chain Network Visualizer",
 
     goal="""
-    Identify all suppliers affected by a disruption
-    using the supplier dependency graph.
+    Determine which suppliers are impacted by a disruption
+    and trace the disruption across the supply chain network.
     """,
 
     backstory="""
-    You understand complex supplier relationships
-    across Tier 1, Tier 2, and Tier 3 networks.
-    You determine the blast radius of disruptions.
+    You are an expert in supply chain mapping and dependency analysis.
+    Your job is to identify the suppliers affected by disruptions
+    and understand how risks propagate through Tier-1, Tier-2,
+    and Tier-3 supplier networks.
     """,
+
+    llm=llm,
 
     verbose=True
 )
