@@ -19,20 +19,40 @@ label_encoders = None
 feature_names = []
 
 
+def find_model_file():
+    preferred_names = [
+        "random_forest_model.pkl",
+        "gradient_boosting_model.pkl",
+        "linear_regression_model.pkl",
+    ]
+
+    for name in preferred_names:
+        candidate = MODELS_DIR / name
+        if candidate.exists():
+            return candidate
+
+    model_files = sorted(MODELS_DIR.glob("*_model.pkl"))
+    if model_files:
+        return model_files[0]
+
+    return None
+
+
 def load_artifacts():
     global model, label_encoders, feature_names
 
     if not MODELS_DIR.exists():
         return False
 
+    model_path = find_model_file()
     required_files = [
-        MODELS_DIR / "random_forest_model.pkl",
+        model_path,
         MODELS_DIR / "scaler.pkl",
         MODELS_DIR / "label_encoders.pkl",
         MODELS_DIR / "feature_names.txt",
     ]
 
-    if not all(file.exists() for file in required_files):
+    if not all(file is not None and file.exists() for file in required_files):
         return False
 
     model = joblib.load(required_files[0])

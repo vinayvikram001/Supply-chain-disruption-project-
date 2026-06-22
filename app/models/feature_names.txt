@@ -1,0 +1,11 @@
+disruption_id
+disruption_type
+industry
+supplier_tier
+supplier_region
+supplier_size
+has_backup_supplier
+disruption_severity
+production_impact_pct
+response_type
+permanent_supplier_change
