@@ -45,6 +45,7 @@ def load_artifacts():
         return False
 
     model_path = find_model_file()
+
     required_files = [
         model_path,
         MODELS_DIR / "scaler.pkl",
@@ -56,7 +57,7 @@ def load_artifacts():
         return False
 
     model = joblib.load(required_files[0])
-    joblib.load(required_files[1])
+    joblib.load(required_files[1])  # scaler loaded if needed later
     label_encoders = joblib.load(required_files[2])
 
     with open(required_files[3], "r", encoding="utf-8") as f:
@@ -76,6 +77,14 @@ class PredictionInput(BaseModel):
     response_type: str
     disruption_severity: float
     production_impact_pct: float
+
+
+@app.get("/")
+def root():
+    return {
+        "message": "Supply Chain Disruption Prediction API",
+        "status": "running",
+    }
 
 
 @app.get("/health")
@@ -102,12 +111,15 @@ def predict(payload: PredictionInput):
 
     for col in label_encoders:
         if col in input_df.columns:
-            input_df[col] = label_encoders[col].transform(input_df[col].astype(str))
+            input_df[col] = label_encoders[col].transform(
+                input_df[col].astype(str)
+            )
 
     input_df = input_df.reindex(columns=feature_names, fill_value=0)
 
     prediction = float(model.predict(input_df)[0])
+
     return {
-        "predicted_full_recovery_days": prediction,
+        "predicted_full_recovery_days": round(prediction, 2),
         "input": payload.model_dump(),
     }
