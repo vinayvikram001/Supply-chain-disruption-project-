@@ -1,0 +1,131 @@
+# Supply-chain-disruption-project-
+Logistics &amp; Supply Chain - Autonomous Disruption Monitoring Agent,Global supply chains are highly fragile. Port strikes, extreme weather, or geopolitical conflicts can disrupt production, making it crucial to quickly identify alternative suppliers across all supply chain tiers.
+
+# risk_assessment_engine.py
+
+from datetime import datetime
+
+
+class RiskAssessmentEngine:
+
+    def __init__(self):
+
+        self.rules = {
+            "earthquake": ("Natural Disaster", 95),
+            "flood": ("Natural Disaster", 85),
+            "strike": ("Labor Strike", 80),
+            "war": ("Geopolitical Conflict", 100),
+            "conflict": ("Geopolitical Conflict", 90),
+            "port": ("Logistics Disruption", 75),
+            "shipping": ("Transportation Delay", 65),
+            "factory": ("Manufacturing Impact", 70)
+        }
+
+    def assess(self, news_article):
+
+        news_lower = news_article.lower()
+
+        highest_score = 0
+        risk_type = "Safe"
+
+        for keyword, data in self.rules.items():
+
+            if keyword in news_lower:
+
+                current_type, score = data
+
+                if score > highest_score:
+
+                    highest_score = score
+                    risk_type = current_type
+
+        severity = self.get_severity(highest_score)
+
+        return {
+            "timestamp": datetime.now().strftime(
+                "%Y-%m-%d %H:%M:%S"
+            ),
+            "risk_type": risk_type,
+            "risk_score": highest_score,
+            "severity": severity
+        }
+
+    def get_severity(self, score):
+
+        if score >= 90:
+            return "Critical"
+
+        elif score >= 70:
+            return "High"
+
+        elif score >= 50:
+            return "Medium"
+
+        return "Low"
+
+
+class ReportGenerator:
+
+    def generate(self, article, assessment):
+
+        print("\n")
+        print("=" * 50)
+        print("SUPPLY CHAIN RISK REPORT")
+        print("=" * 50)
+
+        print("\nNews Event:")
+        print(article)
+
+        print("\nAssessment Time:")
+        print(assessment["timestamp"])
+
+        print("\nRisk Type:")
+        print(assessment["risk_type"])
+
+        print("\nRisk Score:")
+        print(assessment["risk_score"])
+
+        print("\nSeverity:")
+        print(assessment["severity"])
+
+        print("\nRecommended Action:")
+
+        if assessment["severity"] == "Critical":
+
+            print("- Activate backup suppliers")
+            print("- Inform management")
+            print("- Increase inventory")
+
+        elif assessment["severity"] == "High":
+
+            print("- Monitor situation")
+            print("- Prepare contingency plan")
+
+        elif assessment["severity"] == "Medium":
+
+            print("- Track developments")
+
+        else:
+
+            print("- No action required")
+
+        print("\n")
+        print("=" * 50)
+
+
+news = """
+A major earthquake in Taiwan has disrupted
+semiconductor factories and delayed global
+microchip production.
+"""
+
+engine = RiskAssessmentEngine()
+
+assessment = engine.assess(news)
+
+report = ReportGenerator()
+
+report.generate(
+    news,
+    assessment
+)
