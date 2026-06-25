@@ -1,4 +1,8 @@
+from app.env import require_env
 from crewai import Agent, LLM
+
+
+require_env("GROQ_API_KEY")
 
 llm = LLM(
     model="groq/llama-3.3-70b-versatile"

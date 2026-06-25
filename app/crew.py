@@ -1,15 +1,13 @@
-from dotenv import load_dotenv
-load_dotenv()
-
+import app.env
 from crewai import Crew
 
-from agents.risk_manager import risk_manager
-from agents.network_visualizer import network_visualizer
-from agents.sourcing_agent import sourcing_agent
+from app.agents.risk_manager import risk_manager
+from app.agents.network_visualizer import network_visualizer
+from app.agents.sourcing_agent import sourcing_agent
 
-from tasks.risk_task import risk_task
-from tasks.network_task import network_task
-from tasks.sourcing_task import sourcing_task
+from app.tasks.risk_task import risk_task
+from app.tasks.network_task import network_task
+from app.tasks.sourcing_task import sourcing_task
 
 
 crew = Crew(
