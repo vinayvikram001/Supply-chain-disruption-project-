@@ -1,7 +1,6 @@
 from app.env import require_env
 from crewai import Agent, LLM
 
-
 require_env("GROQ_API_KEY")
 
 llm = LLM(
@@ -12,15 +11,17 @@ network_visualizer = Agent(
     role="Supply Chain Network Visualizer",
 
     goal="""
-    Determine which suppliers are impacted by a disruption
-    and trace the disruption across the supply chain network.
+    Identify impacted suppliers, determine their supply chain tier,
+    identify affected components, and explain how the disruption
+    propagates through the supply chain network.
     """,
 
     backstory="""
     You are an expert in supply chain mapping and dependency analysis.
-    Your job is to identify the suppliers affected by disruptions
-    and understand how risks propagate through Tier-1, Tier-2,
-    and Tier-3 supplier networks.
+    Your job is to identify suppliers affected by disruptions,
+    determine whether they belong to Tier-1, Tier-2, or Tier-3,
+    identify the impacted components, and explain how the disruption
+    spreads through the supply chain.
     """,
 
     llm=llm,
