@@ -1,5 +1,5 @@
 import app.env
-from crewai import Crew
+from crewai import Crew, Process
 
 from app.agents.risk_manager import risk_manager
 from app.agents.network_visualizer import network_visualizer
@@ -22,6 +22,8 @@ crew = Crew(
         network_task,
         sourcing_task
     ],
+
+    process=Process.sequential,
 
     verbose=True
 )

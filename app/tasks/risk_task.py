@@ -1,5 +1,5 @@
 from crewai import Task
-from agents.risk_manager import risk_manager
+from app.agents.risk_manager import risk_manager
 
 risk_task = Task(
     description="""
